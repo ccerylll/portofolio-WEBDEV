@@ -16,6 +16,12 @@
         <a href="/about" class="hover:text-white inline-block">About Me</a>
         </div>
         <div class="inline-flex flex-col items-center text-sm">
+        <a href="/skills" class="hover:text-white inline-block">Skills</a>
+        </div>
+        <div class="inline-flex flex-col items-center text-sm">
+        <a href="/projects" class="hover:text-white inline-block">Projects</a>
+        </div>
+        <div class="inline-flex flex-col items-center text-sm">
         <a href="/contact" class="hover:text-white inline-block">Contact</a>
         </div>
     </nav>

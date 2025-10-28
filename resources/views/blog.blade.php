@@ -10,29 +10,32 @@
           <section class="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12">
             <div class="lg:col-span-2">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {{-- Placeholder posts — replace with dynamic loop (e.g., @foreach($posts as $post)) --}}
-                @for ($i = 0; $i < 6; $i++)
-                  @php $img = '/image/design' . (($i % 6) + 1) . '.svg'; @endphp
+                @forelse ($blogs as $index => $blog)
+                  @php $img = '/image/design' . (($index % 6) + 1) . '.svg'; @endphp
                   <article class="bg-neutral-800 border border-gray-700 rounded overflow-hidden">
-                    <img src="{{ $img }}" alt="Post" class="w-full h-40 object-cover grayscale" />
+                    <img src="{{ $img }}" alt="{{ $blog->title }}" class="w-full h-40 object-cover grayscale" />
                     <div class="p-4">
-                      <h3 class="text-xl font-semibold">Sample Post Title {{ $i + 1 }}</h3>
-                      <p class="mt-2 text-gray-300 text-sm">A short excerpt of the post to show how the card will look in the grid.</p>
+                      <h3 class="text-xl font-semibold line-clamp-2">{{ $blog->title }}</h3>
+                      <p class="mt-2 text-gray-300 text-sm line-clamp-3">{{ Str::limit($blog->content, 100) }}</p>
                       <div class="mt-4 flex items-center justify-between">
-                        <a href="#" class="text-sm text-gray-200 hover:underline">Read more →</a>
-                        <span class="text-xs text-gray-400">Oct 2025</span>
+                        <span class="text-xs text-gray-400">By {{ $blog->author }}</span>
+                        <span class="text-xs text-gray-400">{{ $blog->published_at->format('M Y') }}</span>
                       </div>
                     </div>
                   </article>
-                @endfor
+                @empty
+                  <div class="col-span-2 text-center py-12">
+                    <p class="text-gray-400">No blog posts yet. Run <code class="bg-gray-800 px-2 py-1 rounded">php artisan db:seed</code> to create sample posts.</p>
+                  </div>
+                @endforelse
               </div>
 
-              {{-- Pagination placeholder --}}
-              <div class="mt-8 flex items-center justify-center gap-4">
-                <a href="#" class="px-3 py-2 border border-gray-700 rounded text-gray-300">Previous</a>
-                <a href="#" class="px-3 py-2 bg-white text-gray-900 rounded">1</a>
-                <a href="#" class="px-3 py-2 border border-gray-700 rounded text-gray-300">Next</a>
+              {{-- Pagination --}}
+              @if($blogs->hasPages())
+              <div class="mt-8">
+                {{ $blogs->links() }}
               </div>
+              @endif
             </div>
 
             <aside class="prose prose-invert text-gray-200">
